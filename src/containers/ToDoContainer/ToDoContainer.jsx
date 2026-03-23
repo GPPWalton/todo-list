@@ -1,6 +1,8 @@
 import { useState } from "react";
 import ResetButton from "../../components/ResetButton/ResetButton";
 import ToDoInput from "../../components/ToDoInput/ToDoInput";
+import ToDoList from "../ToDoList/ToDoList";
+import ToDoItem from "../../components/ToDoItem/ToDoItem";
 const ToDoContainer = () => {
     const [todoList, setTodoList] = useState([]);
     const [input, setInput] = useState("");
@@ -13,11 +15,16 @@ const ToDoContainer = () => {
     };
     const handleAdd = () => {
         //append the the new input to the toDoList
+        const newItem = { id: Date.now(), text: input };
+        console.log(newItem);
         setTodoList(prevState => {
-            return [...prevState, input];
+            return [...prevState, newItem];
         });
         //clear the input
         setInput("");
+    };
+    const handleDelete = id => {
+        setTodoList(prevState => prevState.filter(item => item.id !== id));
     };
     return (
         <section>
@@ -31,9 +38,18 @@ const ToDoContainer = () => {
                     onInput={handleInput}
                     onAdd={handleAdd}
                 />
-                {todoList.map((item, index) => {
-                    return <p key={item + index}>{item}</p>;
-                })}
+                <ToDoList>
+                    {todoList.map(item => {
+                        return (
+                            <ToDoItem
+                                key={item.id}
+                                taskData={item.text}
+                                id={item.id}
+                                handleDelete={handleDelete}
+                            />
+                        );
+                    })}
+                </ToDoList>
             </section>
         </section>
     );
