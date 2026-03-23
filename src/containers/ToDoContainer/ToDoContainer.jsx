@@ -2,6 +2,7 @@ import { useState } from "react";
 import ResetButton from "../../components/ResetButton/ResetButton";
 import ToDoInput from "../../components/ToDoInput/ToDoInput";
 import ToDoList from "../ToDoList/ToDoList";
+import ToDoItem from "../../components/ToDoItem/ToDoItem";
 const ToDoContainer = () => {
     const [todoList, setTodoList] = useState([]);
     const [input, setInput] = useState("");
@@ -38,9 +39,12 @@ const ToDoContainer = () => {
                 <ToDoList>
                     {todoList.map((item, index) => {
                         return (
-                            <article>
-                                <p key={item + index}>{item}</p>
-                            </article>
+                            <ToDoItem
+                                key={item + index}
+                                taskData={item}
+                                index={index}
+                                handleDelete={handleDelete}
+                            />
                         );
                     })}
                 </ToDoList>
