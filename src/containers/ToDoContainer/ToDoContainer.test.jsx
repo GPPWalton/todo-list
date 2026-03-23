@@ -6,4 +6,8 @@ test("checks ToDoContainer exists", () => {
     expect(screen.getByText("Reset")).toBeInTheDocument();
 });
 
-//TODO: test if resetting functions and other functionality once flow is complete
+test("checks if add button is disabled when input is empty", () => {
+    render(<ToDoContainer />);
+    const add_button = screen.getByRole("button", { name: "Add" });
+    expect(add_button).toBeDisabled();
+});
