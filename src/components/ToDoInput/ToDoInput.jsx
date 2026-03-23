@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 const ToDoInput = ({ input, onInput, onAdd }) => {
+    const isEmpty = input === "";
     return (
         <section>
             <input
@@ -9,7 +10,7 @@ const ToDoInput = ({ input, onInput, onAdd }) => {
                 onInput={onInput}
                 value={input}
             />
-            <button onClick={onAdd}>
+            <button onClick={onAdd} disabled={isEmpty}>
                 <FontAwesomeIcon aria-label='Add' icon={faCirclePlus} />
             </button>
         </section>
