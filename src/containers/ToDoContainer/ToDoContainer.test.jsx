@@ -1,5 +1,5 @@
-import { expect, test } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { expect, test, vi } from "vitest";
+import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ToDoContainer from "./ToDoContainer";
 test("checks ToDoContainer exists", () => {
@@ -12,6 +12,7 @@ test("checks if add button is disabled when input is empty", () => {
     const add_button = screen.getByRole("button", { name: "Add" });
     expect(add_button).toBeDisabled();
 });
+
 test("should delete the correct ToDoItem when delete button is clicked", async () => {
     render(<ToDoContainer />);
 
@@ -38,4 +39,30 @@ test("should delete the correct ToDoItem when delete button is clicked", async (
     // Assert only second item remains
     expect(screen.queryByText("First task")).not.toBeInTheDocument();
     expect(screen.getByText("Second task")).toBeInTheDocument();
+});
+
+test("should toggle completion status when checkbox is clicked", async () => {
+    render(<ToDoContainer />);
+
+    const user = userEvent.setup();
+    // Add two todo items
+    const input = screen.getByRole("textbox"); // Adjust selector if needed
+    const addButton = screen.getByRole("button", { name: "Add" });
+
+    await user.type(input, "Some task");
+    await user.click(addButton);
+
+    const checkbox = screen.getAllByRole("checkbox")[1];
+    const text = screen.getByText("Some task");
+
+    expect(checkbox).not.toBeChecked();
+    expect(text).not.toHaveClass("todo-item__complete");
+
+    await user.click(checkbox);
+    expect(checkbox).toBeChecked();
+    expect(text).toHaveClass("todo-item__complete");
+
+    await user.click(checkbox);
+    expect(checkbox).not.toBeChecked();
+    expect(text).not.toHaveClass("todo-item__complete");
 });

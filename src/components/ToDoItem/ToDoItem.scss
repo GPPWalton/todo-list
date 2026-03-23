@@ -17,6 +17,10 @@
         padding: 0;
         margin: 0;
         font: inherit;
+
+        &:hover {
+            color: rgb(29, 109, 230);
+        }
     }
 }
 @media (max-width: 320px) {
@@ -37,6 +41,10 @@
             padding: 0;
             margin: 0;
             font: inherit;
+
+            &:hover {
+                color: rgb(29, 109, 230);
+            }
         }
     }
 }
