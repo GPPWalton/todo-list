@@ -21,6 +21,16 @@ const ToDoContainer = () => {
     useEffect(() => {
         localStorage.setItem("todoList", JSON.stringify(todoList));
     }, [todoList]);
+
+    const toggleCompletion = id => {
+        setTodoList(prevState =>
+            prevState.map(item =>
+                item.id === id
+                    ? { ...item, isComplete: !item.isComplete }
+                    : item
+            )
+        );
+    };
     const handleReset = () => {
         setTodoList([]);
     };
@@ -30,8 +40,7 @@ const ToDoContainer = () => {
     };
     const handleAdd = () => {
         //append the the new input to the toDoList
-        const newItem = { id: Date.now(), text: input };
-        console.log(newItem);
+        const newItem = { id: Date.now(), text: input, isComplete: false };
         setTodoList(prevState => {
             return [...prevState, newItem];
         });
@@ -62,6 +71,10 @@ const ToDoContainer = () => {
                                 taskData={item.text}
                                 id={item.id}
                                 handleDelete={handleDelete}
+                                isComplete={item.isComplete}
+                                toggleCompletion={() =>
+                                    toggleCompletion(item.id)
+                                }
                             />
                         );
                     })}
