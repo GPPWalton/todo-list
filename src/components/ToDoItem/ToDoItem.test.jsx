@@ -5,8 +5,8 @@ import ToDoItem from "./ToDoItem";
 
 test("Check if ToDoInput component renders", () => {
     const data = "New Task";
-    const index = 0;
-    render(<ToDoItem taskData={data} index={index} handleDelete={vi.fn()} />);
+    const id = 0;
+    render(<ToDoItem taskData={data} index={id} handleDelete={vi.fn()} />);
     expect(screen.getByText("New Task")).toBeInTheDocument();
 
     const checkBox = screen.getByRole("checkbox");

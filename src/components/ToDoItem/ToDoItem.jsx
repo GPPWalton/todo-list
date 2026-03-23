@@ -2,7 +2,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import "./ToDoItem.scss";
-const ToDoItem = ({ taskData, index, handleDelete }) => {
+const ToDoItem = ({ taskData, id, handleDelete }) => {
     const [isComplete, setIsComplete] = useState(false);
     const toggleCompletion = () => {
         setIsComplete(!isComplete);
@@ -18,7 +18,7 @@ const ToDoItem = ({ taskData, index, handleDelete }) => {
             <p className={isComplete ? "todo-item__complete" : ""}>
                 {taskData}
             </p>
-            <button onClick={() => handleDelete(index)}>
+            <button onClick={() => handleDelete(id)}>
                 <FontAwesomeIcon aria-label='Delete' icon={faTrash} />
             </button>
         </article>

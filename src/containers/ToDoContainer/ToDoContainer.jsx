@@ -15,14 +15,16 @@ const ToDoContainer = () => {
     };
     const handleAdd = () => {
         //append the the new input to the toDoList
+        const newItem = { id: Date.now(), text: input };
+        console.log(newItem);
         setTodoList(prevState => {
-            return [...prevState, input];
+            return [...prevState, newItem];
         });
         //clear the input
         setInput("");
     };
-    const handleDelete = index => {
-        setTodoList(prevState => prevState.filter((_, i) => i !== index));
+    const handleDelete = id => {
+        setTodoList(prevState => prevState.filter(item => item.id !== id));
     };
     return (
         <section>
@@ -37,12 +39,12 @@ const ToDoContainer = () => {
                     onAdd={handleAdd}
                 />
                 <ToDoList>
-                    {todoList.map((item, index) => {
+                    {todoList.map(item => {
                         return (
                             <ToDoItem
-                                key={item + index}
-                                taskData={item}
-                                index={index}
+                                key={item.id}
+                                taskData={item.text}
+                                id={item.id}
                                 handleDelete={handleDelete}
                             />
                         );
