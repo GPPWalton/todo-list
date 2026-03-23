@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ResetButton from "../../components/ResetButton/ResetButton";
 import ToDoInput from "../../components/ToDoInput/ToDoInput";
+import ToDoList from "../ToDoList/ToDoList";
 const ToDoContainer = () => {
     const [todoList, setTodoList] = useState([]);
     const [input, setInput] = useState("");
@@ -19,6 +20,9 @@ const ToDoContainer = () => {
         //clear the input
         setInput("");
     };
+    const handleDelete = index => {
+        setTodoList(prevState => prevState.filter((_, i) => i !== index));
+    };
     return (
         <section>
             <header>
@@ -31,9 +35,15 @@ const ToDoContainer = () => {
                     onInput={handleInput}
                     onAdd={handleAdd}
                 />
-                {todoList.map((item, index) => {
-                    return <p key={item + index}>{item}</p>;
-                })}
+                <ToDoList>
+                    {todoList.map((item, index) => {
+                        return (
+                            <article>
+                                <p key={item + index}>{item}</p>
+                            </article>
+                        );
+                    })}
+                </ToDoList>
             </section>
         </section>
     );
