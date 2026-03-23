@@ -1,5 +1,10 @@
+import "./ResetButton.scss";
 const ResetButton = ({ onReset }) => {
-    return <button onClick={onReset}>Reset</button>;
+    return (
+        <button className='reset-button' onClick={onReset}>
+            Reset
+        </button>
+    );
 };
 
 export default ResetButton;

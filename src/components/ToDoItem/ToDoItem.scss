@@ -1,5 +1,42 @@
 .todo-item {
+    border: 2px solid black;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 5px;
+    margin-bottom: 5px;
     &__complete {
         text-decoration: line-through;
+    }
+    &__delete-button {
+        background: none;
+        border: none;
+        outline: none;
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+        font: inherit;
+    }
+}
+@media (max-width: 320px) {
+    .todo-input {
+        border: 3px solid black;
+        border-radius: 15px;
+        display: flex;
+        justify-content: space-between;
+
+        &__complete {
+            text-decoration: line-through;
+        }
+        &__delete-button {
+            background: none;
+            border: none;
+            outline: none;
+            box-shadow: none;
+            padding: 0;
+            margin: 0;
+            font: inherit;
+        }
     }
 }

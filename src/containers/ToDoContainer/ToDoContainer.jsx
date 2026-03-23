@@ -3,6 +3,8 @@ import ResetButton from "../../components/ResetButton/ResetButton";
 import ToDoInput from "../../components/ToDoInput/ToDoInput";
 import ToDoList from "../ToDoList/ToDoList";
 import ToDoItem from "../../components/ToDoItem/ToDoItem";
+
+import "./ToDoContainer.scss";
 const ToDoContainer = () => {
     const [todoList, setTodoList] = useState([]);
     const [input, setInput] = useState("");
@@ -27,12 +29,12 @@ const ToDoContainer = () => {
         setTodoList(prevState => prevState.filter(item => item.id !== id));
     };
     return (
-        <section>
-            <header>
+        <section className='todo-container'>
+            <header className='todo-container__header'>
                 <h1>My ToDo-List</h1>
                 <ResetButton onReset={() => handleReset()} />
             </header>
-            <section>
+            <section className='todo-container__content'>
                 <ToDoInput
                     input={input}
                     onInput={handleInput}

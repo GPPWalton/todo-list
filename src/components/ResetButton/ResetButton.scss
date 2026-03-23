@@ -1,0 +1,16 @@
+.reset-button {
+    background: none;
+    border: 5px solid black;
+    border-radius: 15px;
+    outline: none;
+    box-shadow: none;
+    padding: 10px;
+    height: max-content;
+    min-width: 25%;
+    cursor: pointer;
+    font: inherit;
+    &:hover {
+        border: 3px solid rgb(29, 109, 230);
+        color: rgb(29, 109, 230);
+    }
+}

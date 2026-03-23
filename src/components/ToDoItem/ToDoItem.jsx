@@ -8,7 +8,7 @@ const ToDoItem = ({ taskData, id, handleDelete }) => {
         setIsComplete(!isComplete);
     };
     return (
-        <article>
+        <article className='todo-item'>
             <input
                 type='checkbox'
                 name='completion status'
@@ -18,7 +18,10 @@ const ToDoItem = ({ taskData, id, handleDelete }) => {
             <p className={isComplete ? "todo-item__complete" : ""}>
                 {taskData}
             </p>
-            <button onClick={() => handleDelete(id)}>
+            <button
+                className='todo-item__delete-button'
+                onClick={() => handleDelete(id)}
+            >
                 <FontAwesomeIcon aria-label='Delete' icon={faTrash} />
             </button>
         </article>
