@@ -1,4 +1,5 @@
 .prettierrc
+.env
 # Logs
 logs
 *.log
