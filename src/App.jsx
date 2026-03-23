@@ -1,9 +1,7 @@
+import ToDoContainer from "./containers/ToDoContainer/ToDoContainer";
+
 function App () {
-    return (
-        <section>
-            <p>test</p>
-        </section>
-    );
+    return <ToDoContainer />;
 }
 
 export default App;
