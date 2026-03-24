@@ -54,7 +54,7 @@ const ToDoContainer = () => {
     return (
         <section className='todo-container'>
             <header className='todo-container__header'>
-                <h1>My ToDo-List</h1>
+                <h1>My Todo List</h1>
                 <ResetButton onReset={() => handleReset()} />
             </header>
             <section className='todo-container__content'>
@@ -64,20 +64,27 @@ const ToDoContainer = () => {
                     onAdd={handleAdd}
                 />
                 <ToDoList>
-                    {todoList.map(item => {
-                        return (
-                            <ToDoItem
-                                key={item.id}
-                                taskData={item.text}
-                                id={item.id}
-                                handleDelete={handleDelete}
-                                isComplete={item.isComplete}
-                                toggleCompletion={() =>
-                                    toggleCompletion(item.id)
-                                }
-                            />
-                        );
-                    })}
+                    {todoList.length !== 0 ? (
+                        todoList.map(item => {
+                            return (
+                                <ToDoItem
+                                    key={item.id}
+                                    taskData={item.text}
+                                    id={item.id}
+                                    handleDelete={handleDelete}
+                                    isComplete={item.isComplete}
+                                    toggleCompletion={() =>
+                                        toggleCompletion(item.id)
+                                    }
+                                />
+                            );
+                        })
+                    ) : (
+                        <p className='todo-container__placeholder'>
+                            Nothing to see here yet .. Add in the field above!
+                            👆
+                        </p>
+                    )}
                 </ToDoList>
             </section>
         </section>

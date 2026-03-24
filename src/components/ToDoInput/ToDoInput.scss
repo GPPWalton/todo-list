@@ -1,6 +1,8 @@
 .todo-input {
     border: 3px solid black;
     border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
     &__input {
         background: none;
         border: 0;
@@ -28,6 +30,44 @@
 
         &:hover:not(:disabled) {
             color: rgb(29, 109, 230);
+        }
+    }
+}
+@media (max-width: 320px) {
+    .todo-input {
+        width: 100%;
+        border: 3px solid black;
+        border-radius: 15px;
+        display: flex;
+        justify-content: space-between;
+        &__input {
+            background: none;
+            border: 0;
+            outline: none;
+            box-shadow: none;
+            padding: 10px;
+            margin: 0;
+            font: inherit;
+            color: inherit;
+            appearance: none;
+            line-height: 1;
+        }
+
+        &:hover {
+            border: 3px solid rgb(29, 109, 230);
+        }
+        &__add-button {
+            background: none;
+            border: none;
+            outline: none;
+            box-shadow: none;
+            padding: 0;
+            margin: 0;
+            font: inherit;
+
+            &:hover:not(:disabled) {
+                color: rgb(29, 109, 230);
+            }
         }
     }
 }
