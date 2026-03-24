@@ -5,6 +5,7 @@ import ToDoList from "../ToDoList/ToDoList";
 import ToDoItem from "../../components/ToDoItem/ToDoItem";
 
 import "./ToDoContainer.scss";
+import PokemonCard from "../PokemonCard/PokemonCard";
 const ToDoContainer = () => {
     const [todoList, setTodoList] = useState(() => {
         try {
@@ -86,6 +87,7 @@ const ToDoContainer = () => {
                         </p>
                     )}
                 </ToDoList>
+                <PokemonCard />
             </section>
         </section>
     );
