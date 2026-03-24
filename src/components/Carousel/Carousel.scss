@@ -1,0 +1,59 @@
+// .carousel {
+//     border: none;
+//     border-radius: 20px;
+//     &__buttons {
+//         color: gray;
+//         background: none;
+//         border: 0;
+//         outline: none;
+//         box-shadow: none;
+//         height: max-content;
+//         cursor: pointer;
+//         font: inherit;
+//         &:hover {
+//             color: black;
+//         }
+//     }
+// }
+.carousel {
+    border: none;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: flex-start;
+
+    &__button-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        &__buttons {
+            color: gray;
+            background: none;
+            border: 0;
+            outline: none;
+            box-shadow: none;
+            height: max-content;
+            cursor: pointer;
+            font: inherit;
+
+            &:hover {
+                color: black;
+            }
+
+            &--left {
+                // left: 10px;
+            }
+
+            &--right {
+                // right: 200px;
+            }
+        }
+    }
+
+    &__img {
+        border-radius: 20px;
+        max-width: 100%;
+        height: auto;
+    }
+}
