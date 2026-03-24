@@ -1,5 +1,6 @@
 .todo-item {
     width: 100%;
+    min-width: 100%; // Ensures it never shrinks below container's width
     border: 2px solid black;
     border-radius: 20px;
     display: flex;
@@ -7,9 +8,11 @@
     justify-content: space-between;
     margin-top: 5px;
     margin-bottom: 5px;
+
     &__complete {
         text-decoration: line-through;
     }
+
     &__delete-button {
         background: none;
         border: none;
@@ -21,32 +24,6 @@
 
         &:hover {
             color: rgb(29, 109, 230);
-        }
-    }
-}
-@media (max-width: 320px) {
-    .todo-item {
-        width: 100%;
-        border: 3px solid black;
-        border-radius: 15px;
-        display: flex;
-        justify-content: space-between;
-
-        &__complete {
-            text-decoration: line-through;
-        }
-        &__delete-button {
-            background: none;
-            border: none;
-            outline: none;
-            box-shadow: none;
-            padding: 0;
-            margin: 0;
-            font: inherit;
-
-            &:hover {
-                color: rgb(29, 109, 230);
-            }
         }
     }
 }
