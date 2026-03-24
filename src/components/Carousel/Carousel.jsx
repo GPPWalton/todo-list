@@ -24,7 +24,7 @@ const Carousel = ({ imgArr, name }) => {
             )}
             <div className='carousel__button-container'>
                 <button
-                    className='carousel__button-container__buttons carousel__button-container__buttons--left'
+                    className='carousel__button-container__buttons'
                     onClick={() => handleClick(-1)}
                 >
                     <FontAwesomeIcon
@@ -33,7 +33,7 @@ const Carousel = ({ imgArr, name }) => {
                     />
                 </button>
                 <button
-                    className='carousel__button-container__buttons carousel__button-container_buttons--right'
+                    className='carousel__button-container__buttons '
                     onClick={() => handleClick(+1)}
                 >
                     <FontAwesomeIcon
