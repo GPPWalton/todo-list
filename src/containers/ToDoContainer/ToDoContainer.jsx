@@ -38,7 +38,8 @@ const ToDoContainer = () => {
         const { value } = event.target;
         setInput(value);
     };
-    const handleAdd = () => {
+    const handleAdd = e => {
+        e.preventDefault();
         //append the the new input to the toDoList
         const newItem = { id: Date.now(), text: input, isComplete: false };
         setTodoList(prevState => {

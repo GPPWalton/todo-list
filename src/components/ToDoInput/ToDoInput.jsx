@@ -4,7 +4,7 @@ import "./ToDoInput.scss";
 const ToDoInput = ({ input, onInput, onAdd }) => {
     const isEmpty = input === "";
     return (
-        <section className='todo-input'>
+        <form className='todo-input' onSubmit={onAdd}>
             <input
                 className='todo-input__input'
                 name='input'
@@ -14,12 +14,12 @@ const ToDoInput = ({ input, onInput, onAdd }) => {
             />
             <button
                 className='todo-input__add-button'
-                onClick={onAdd}
+                type='submit'
                 disabled={isEmpty}
             >
                 <FontAwesomeIcon aria-label='Add' icon={faCirclePlus} />
             </button>
-        </section>
+        </form>
     );
 };
 
