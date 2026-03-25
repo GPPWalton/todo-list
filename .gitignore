@@ -1,5 +1,5 @@
 .prettierrc
-.env
+.env*
 # Logs
 logs
 *.log

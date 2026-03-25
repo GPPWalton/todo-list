@@ -6,21 +6,23 @@ import ToDoItem from "../../components/ToDoItem/ToDoItem";
 
 import "./ToDoContainer.scss";
 const ToDoContainer = () => {
-    const [todoList, setTodoList] = useState(() => {
-        try {
-            const cached = localStorage.getItem("todoList");
-            return cached ? JSON.parse(cached) : [];
-        } catch (error) {
-            console.error("Failed to load from cache:", error);
-            return [];
-        }
-    });
+    const [todoList, setTodoList] = useState([]);
     const [input, setInput] = useState("");
 
-    //store toDoList in cache
+    //get todoList from server on mount
     useEffect(() => {
-        localStorage.setItem("todoList", JSON.stringify(todoList));
-    }, [todoList]);
+        const loadTodos = async () => {
+            try {
+                const res = await fetch(import.meta.env.VITE_TODO_LIST_API);
+                const data = await res.json();
+                setTodoList(Array.isArray(data) ? data : []);
+            } catch (error) {
+                console.error("Failed to load todo list:", error);
+                setTodoList([]);
+            }
+        };
+        loadTodos();
+    }, []);
 
     const toggleCompletion = id => {
         setTodoList(prevState =>
@@ -38,19 +40,51 @@ const ToDoContainer = () => {
         const { value } = event.target;
         setInput(value);
     };
-    const handleAdd = e => {
+    const handleAdd = async e => {
         e.preventDefault();
-        //append the the new input to the toDoList
-        const newItem = { id: Date.now(), text: input, isComplete: false };
-        setTodoList(prevState => {
-            return [...prevState, newItem];
-        });
-        //clear the input
+        if (!input.trim()) return;
+
+        const newItem = {
+            id: Date.now().toString(),
+            text: input,
+            isComplete: false
+        };
+
+        // Update local state immediately (optimistic update)
+        setTodoList(prev => [...prev, newItem]);
+
+        // Clear input
         setInput("");
-        //save the data to the cache
+
+        // Send to backend
+        try {
+            const res = await fetch(`${import.meta.env.VITE_TODO_LIST_API}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ task: newItem })
+            });
+            const data = await res.text(); // Backend sends plain text
+            console.log(data);
+        } catch (error) {
+            console.error("Failed to add task:", error);
+            // Optionally rollback state here
+        }
     };
-    const handleDelete = id => {
-        setTodoList(prevState => prevState.filter(item => item.id !== id));
+    const handleDelete = async id => {
+        try {
+            await fetch(`${import.meta.env.VITE_TODO_LIST_API}/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            // Remove item from local state after successful deletion
+            setTodoList(prev => prev.filter(item => item.id !== id));
+        } catch (error) {
+            console.error("Failed to delete task:", error);
+        }
     };
     return (
         <section className='todo-container'>
@@ -65,7 +99,7 @@ const ToDoContainer = () => {
                     onAdd={handleAdd}
                 />
                 <ToDoList>
-                    {todoList.length !== 0 ? (
+                    {todoList.length > 0 ? (
                         todoList.map(item => {
                             return (
                                 <ToDoItem
