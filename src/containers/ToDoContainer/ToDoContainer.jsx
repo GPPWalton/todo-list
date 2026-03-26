@@ -9,6 +9,7 @@ const ToDoContainer = () => {
     const [todoList, setTodoList] = useState([]);
     const [input, setInput] = useState("");
 
+    //TODO: also figure out how to load from cache as well if server is not connected?
     //get todoList from server on mount
     useEffect(() => {
         const loadTodos = async () => {
@@ -33,8 +34,19 @@ const ToDoContainer = () => {
             )
         );
     };
-    const handleReset = () => {
-        setTodoList([]);
+    const handleReset = async () => {
+        try {
+            await fetch(`${import.meta.env.VITE_TODO_LIST_API}/clear`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            // Remove item from local state after successful deletion
+            setTodoList([]);
+        } catch (error) {
+            console.error("Failed to clear todo-list", error);
+        }
     };
     const handleInput = event => {
         const { value } = event.target;
