@@ -1,25 +1,58 @@
-import { expect, test, vi } from "vitest";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { expect, test, vi, beforeEach, afterEach } from "vitest";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ToDoContainer from "./ToDoContainer";
-test("checks ToDoContainer exists", () => {
-    render(<ToDoContainer />);
-    expect(screen.getByText("Reset")).toBeInTheDocument();
+
+beforeEach(() => {
+    // Mock the initial GET request on mount
+    global.fetch = vi.fn(() =>
+        Promise.resolve({
+            ok: true,
+            json: () => Promise.resolve([]) // Mock empty list
+        })
+    );
 });
 
-test("checks if add button is disabled when input is empty", () => {
+afterEach(() => {
+    vi.clearAllMocks();
+});
+
+test("checks ToDoContainer exists", async () => {
     render(<ToDoContainer />);
-    const add_button = screen.getByRole("button", { name: "Add" });
-    expect(add_button).toBeDisabled();
+    // Wait for the async fetch and render
+    await waitFor(() => expect(screen.getByText("Reset")).toBeInTheDocument());
+});
+
+test("checks if add button is disabled when input is empty", async () => {
+    render(<ToDoContainer />);
+    const addButton = await waitFor(() =>
+        screen.getByRole("button", { name: "Add" })
+    );
+    expect(addButton).toBeDisabled();
 });
 
 test("should delete the correct ToDoItem when delete button is clicked", async () => {
     render(<ToDoContainer />);
-
     const user = userEvent.setup();
 
-    // Add two todo items
-    const input = screen.getByRole("textbox"); // Adjust selector if needed
+    // Mock the POST request for adding items
+    global.fetch = vi
+        .fn()
+        .mockImplementationOnce(() =>
+            Promise.resolve({
+                ok: true,
+                text: () => Promise.resolve("Task added") // Add the 'text' method
+            })
+        )
+        // Mock the DELETE request for deleting items
+        .mockImplementationOnce(() =>
+            Promise.resolve({
+                ok: true,
+                text: () => Promise.resolve("Task deleted") // Add the 'text' method
+            })
+        );
+
+    const input = screen.getByRole("textbox");
     const addButton = screen.getByRole("button", { name: "Add" });
 
     await user.type(input, "First task");
@@ -28,31 +61,42 @@ test("should delete the correct ToDoItem when delete button is clicked", async (
     await user.type(input, "Second task");
     await user.click(addButton);
 
-    // Check both items are present
     expect(screen.getByText("First task")).toBeInTheDocument();
     expect(screen.getByText("Second task")).toBeInTheDocument();
 
-    // Find and click delete button for "First task"
     const deleteButtons = screen.getAllByRole("button", { name: "Delete" });
-    await user.click(deleteButtons[0]); // Delete first item
+    await user.click(deleteButtons[0]);
 
-    // Assert only second item remains
     expect(screen.queryByText("First task")).not.toBeInTheDocument();
     expect(screen.getByText("Second task")).toBeInTheDocument();
 });
 
 test("should toggle completion status when checkbox is clicked", async () => {
     render(<ToDoContainer />);
-
     const user = userEvent.setup();
-    // Add two todo items
-    const input = screen.getByRole("textbox"); // Adjust selector if needed
+
+    // Mock the POST request for adding the item
+    global.fetch = vi.fn(() =>
+        Promise.resolve({
+            ok: true,
+            text: () => Promise.resolve("Task added") // Add the 'text' method
+        })
+    );
+
+    const input = screen.getByRole("textbox");
     const addButton = screen.getByRole("button", { name: "Add" });
 
     await user.type(input, "Some task");
     await user.click(addButton);
 
-    const checkbox = screen.getAllByRole("checkbox")[1];
+    // Wait for the state update from the optimistic update and the fetch
+    await waitFor(() => {
+        const checkbox = screen.getByRole("checkbox");
+        expect(checkbox).toBeInTheDocument();
+        return checkbox;
+    });
+
+    const checkbox = screen.getByRole("checkbox");
     const text = screen.getByText("Some task");
 
     expect(checkbox).not.toBeChecked();
